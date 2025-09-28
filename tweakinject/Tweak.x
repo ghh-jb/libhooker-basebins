@@ -13,7 +13,7 @@
 #define PROC_PIDPATHINFO_MAXSIZE  (1024)
 int proc_pidpath(pid_t pid, void *buffer, uint32_t buffersize);
 
-#define dylibDir @"/Library/TweakInject"
+#define dylibDir @"/Library/MobileSubstrate/DynamicLibraries"
 
 //libhooker options
 static BOOL killBackBoarddWithSpringBoard = NO;
@@ -24,6 +24,16 @@ static BOOL isBackboard = NO;
 static pid_t backboarddPID = 0;
 static NSString *processHash = @"";
 static BOOL safeMode = false;
+
+BOOL contains_string(NSString* a, NSString* b) {
+    NSRange range = [a rangeOfString:b];
+    if (range.location != NSNotFound) {
+        return true; // we found substr, exit with yes?
+    } else {
+        return false; // No substring
+    }
+
+}
 
 static NSArray *sbinjectGenerateDylibList(NSString *appPath) {
     NSString *processName = [[NSProcessInfo processInfo] processName];
