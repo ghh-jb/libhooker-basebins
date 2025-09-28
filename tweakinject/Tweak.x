@@ -86,7 +86,11 @@ static NSArray *sbinjectGenerateDylibList(NSString *appPath) {
                     }
                     if (kCFCoreFoundationVersionNumber >= 1600){
                         if ([entry hasPrefix:@"com.apple.UIKit"] || [entry hasSuffix:@"UI"]|| [entry hasPrefix:@"com.apple.TextInput"] || [entry hasPrefix:@"com.apple.TextEntry"]){
-                            if (![appPath hasPrefix:@"/Applications"] && ![appPath hasPrefix:@"/var/containers/Bundle/Application"] && ![NSBundle.mainBundle.bundleIdentifier isEqualToString:@"com.apple.springboard"]){
+                            // if (![appPath hasPrefix:@"/Applications"] && ![appPath hasPrefix:@"/var/containers/Bundle/Application"] && ![NSBundle.mainBundle.bundleIdentifier isEqualToString:@"com.apple.springboard"]){
+                            //     //Should not be injecting here. Skip it
+                            //     continue;
+                            // }
+                            if (!contains_string(appPath, @"/procursus/overlays/Applications") && ![appPath hasPrefix:@"/var/containers/Bundle/Application"] && ![NSBundle.mainBundle.bundleIdentifier isEqualToString:@"com.apple.springboard"]){
                                 //Should not be injecting here. Skip it
                                 continue;
                             }
@@ -367,7 +371,9 @@ static void ctor(void) {
                     return;
                 }
 
-                if ([pathStr hasPrefix:@"/Applications"] || [pathStr hasPrefix:@"/var/containers/Bundle/Application"]){
+                // if ([pathStr hasPrefix:@"/Applications"] || [pathStr hasPrefix:@"/var/containers/Bundle/Application"]){
+                //     processHash = nil;
+                if (contains_string(pathStr, @"/procursus/overlays/Applications") || [pathStr hasPrefix:@"/var/containers/Bundle/Application"]){
                     processHash = nil;
                 } else {
                     uint8_t digest[CC_SHA1_DIGEST_LENGTH];
