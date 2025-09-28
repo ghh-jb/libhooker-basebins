@@ -10,7 +10,7 @@ endif
 
 # it is injected into trust cache by code
 # which only supports sha-256 signatures
-LDID    = ldid2
+LDID    = ldid
 CFLAGS  = -Wall -I./apple_include
 
 .PHONY: all clean
